@@ -1,57 +1,138 @@
-from tkinter import * # Importib tkniteri
+from tkinter import *  #impordib mooduli
+import os #impordib mooduli
 
-def register_user(): # Teeb funktsiooni register_user
-    username_info = username.get() # Kasutajanimi väärtus on sisestatud kasutaja nimi
-    password_info = password.get() # Parooli väärtus on sisestatud parooli väärtus
+def delete2(): #funktsiooni defineerimine
+    screen3.destroy() #kustutab väljundi
 
-    file=open(username_info + ".txt", "w") # Teeb uue .txt kasutajanime nimega
-    file.write(username_info+"\n") # Lisab esimesele reale kasutajanime
-    file.write(password_info) # Lisab teisele reale parooli väärtuse
-    file.close() # Paneb faili kinni
+def delete3(): #funktsiooni defineerimine
+    screen4.destroy() #kustutab väljundi
 
-    username_entry.delete(0, END) # Kustutab registreerimis väljast sisestatud nime
-    password_entry.delete(0, END) # Kustutab registreerimis väljast sisestatud parooli
+def delete4(): #funktsiooni defineerimine
+    screen5.destroy() #kustutab väljundi
 
-    Label(screen1, text = "Registration Sucess", fg= "green", font = ("Calibiri", 11)).pack() # Kui registreerimine õnnestus kirjutab rohelise teksti et õnnestus
+def login_success(): #funktsiooni defineerimine
+    global screen3
+    screen3 = Toplevel(screen)
+    screen3.title("Succsess") #määrab akna pealkirja
+    screen2.geometry("150x100") #määrab akna suuruse
+    Label(text="Login success").pack()
+    Button(text="OK", command=delete2)
 
-def register(): # Teeb funktsiooni register
-    global screen1 # Teeb globaalse muutuja screen1
-    screen1 = Toplevel(screen) # screen1 väärtus on Toplevel(screen) mis tuleb tkinter'ist
-    screen1.title("Register") # Seab akna nimeks register
-    screen1.geometry("300x250") # Seab akna suuruse 300x250
+def password_not_recognised(): #funktsiooni defineerimine
+    global screen4
+    screen4 = Toplevel(screen)
+    screen4.title("Success") #määrab akna pealkirja
+    screen4.geometry("150x100") #määrab akna suuruse
+    Label(screen4, text="Password Error").pack()
+    Button(screen4, text="OK", command=delete3).pack()
 
-    global username # Teeb globaalse muutuja username
-    global password # Teeb globaalse muutuja password
-    global username_entry # Teeb globaalse muutuja username_entry
-    global password_entry # Teeb globaalse muutuja password_entry
-    username = StringVar() # StringVar on klass, mis pakub abifunktsioone selliste muutujate otseseks loomiseks ja juurdepääsemiseks selles tõlgis
-    password = StringVar() # StringVar on klass, mis pakub abifunktsioone selliste muutujate otseseks loomiseks ja juurdepääsemiseks selles tõlgis
+def user_not_found(): #funktsiooni defineerimine
+    global screen5
+    screen5 = Toplevel(screen)
+    screen5.title("Success") #akna pealkiri
+    screen5.geometry("150x100") #akna suurus
+    Label(screen5, text="User Not Found").pack()
+    Button(screen5, text="OK", command=delete4).pack()
 
-    Label(screen1, text = "Please enter details below").pack() # Teeb uue teksti et lisa oma detailid
-    Label(screen1, text = "").pack() # # Teeb lahtri tühjaks
-    Label(screen1, text = "Username * ").pack() # Teeb uue teksti lahtri jaoks Username
-    username_entry = Entry(screen1, textvariable = username) # Võtab kasutajanime
-    username_entry.pack() # Pack asutatakse selleks, et vidin täidaks kogu kaadri
-    Label(screen1, text = "Password * ").pack() # Teeb uue teksti lahtri jaoks password
-    password_entry = Entry(screen1, textvariable = password) # Võtab parooli
-    password_entry.pack() # Pack asutatakse selleks, et vidin täidaks kogu kaadri
-    Label(screen1, text = "").pack() # Teeb lahtri tühjaks
-    Button(screen1, text = "Register", width = 10, height = 1, command = register_user).pack() #
 
-def login(): # Teeb funktsiooni login
-    print("Login session started") # Prindib et logimine algas kui vajutad login nuppu
+def register_user(): #funktsiooni defineerimine
 
-def main_screen(): # Teeb uue funktsiooni main_screen
-    global screen # Teeb globaalse muutuja screen
-    screen = Tk() # Tk eksemplari loomine initsialiseerib selle interpretaatori ja loob juurakna
-    screen.geometry("300x250") # Seab suuruseks 300x250
-    screen.title("Notes 1.0") # Paneb akna nimeks Notes 1.0
-    Label(text = "Notes 1.0", bg = "gray", width = "300", height = "2", font = ("Calibri", 13)).pack()# Teeb teksti Notes.10, halli värviga ja seab suuruse ja fondi
-    Label(text = "").pack() # Teeb lahtri tühjaks
-    Button(text="Login", height="2", width="30", command=login).pack() # Teeb logimis nupu
-    Label(text= "").pack() # Teeb tühja lahtri
-    Button(text = "Register", height = "2", width = "30", command = register).pack() # Teeb nupu register
+    username_info = username.get() #võtab väärtuse username väljalt
+    password_info = password.get() #võtab väärtuse password väljalt
 
-    screen.mainloop() # Käsib aknal oodata, kuni kasutaja midagi teeb
+    file = open(username_info + ".txt", "w") #avab kirjutamiseks faili
+    file.write(username_info + "\n") #kirjutab kasutajanime faili
+    file.write(password_info) #kirjutab parooli faili
+    file.close() #paneb faili kinni
 
-main_screen() # Käivitab funktsiooni main_screen
+    username_entry.delete(0, END) #kustutab kasutaja nime
+    password_entry.delete(0, END) #kustutab kasutaja parooli
+
+    Label(screen1, text = "Registration Sucess", fg = "green", font = ("calibri", 11)).pack() #
+
+def login_verify(): #funktsiooni defineerimine
+    username1 = username_verify.get()
+    password1 = password_verify.get()
+    username_entry1.delete(0, END) #kustutab kasutaja nime
+    password_entry1.delete(0, END) #kustutab kasutaja parooli
+
+    list_of_files = os.listdir() #loob nimekirja
+    if username1 in list_of_files: #kontrollib kas kasutaja on olemas
+        file1 = open(username1, "r") #avab faili
+        verify = file1.read().splitlines #loob faili
+        if password in verify: #kontrollib kas parool on olemas
+            login_success() #kasutab login_success funktsiooni
+        else: #kui parooli ei ole
+            password_not_recognised() #kasutab password_not_recognised funktsiooni
+    else: #kui kasutajat ei ole
+        user_not_found() #kasutab user_not_found funktsiooni
+
+
+def register(): # register funktsiooni defineerimine
+    global screen1
+    screen1 = Toplevel(screen) # loob ekraani
+    screen1.title("Register") #ekraani pealkiri
+    screen1.geometry("300x250") #ekraani suurus
+
+#defineerib muutujad
+    global username
+    global password
+    global username_entry
+    global password_entry
+    username = StringVar()
+    password = StringVar()
+
+    Label(screen1, text = "Please enter details below").pack() # tekst
+    Label(screen1, text = "").pack()
+    Label(screen1, text = "Username * ").pack()
+    username_entry = Entry(screen1, textvariable=username)
+    username_entry.pack()
+    Label(screen1, text = "Password * ").pack()
+    password_entry = Entry(screen1, textvariable=password)
+    password_entry.pack()
+    Label(screen1, text = "").pack()
+    Button(screen1, text = "Register", width = 10, height = 1, command=register_user).pack()
+
+
+def login(): #login funktsiooni defineerimine
+    global screen2
+    screen2 = Toplevel(screen)
+    screen2.title("Login") #akna pealkiri
+    screen2.geometry("300x250") #akna suurus
+    Label(screen2, text="Please enter details below to login").pack()  # tekst
+    Label(screen2, text="").pack()
+
+    global username_verify
+    global password_verify
+    global username_entry1
+    global password_entry1
+    username_verify = StringVar()
+    password_verify = StringVar()
+
+    Label(screen2, text="Username * ").pack()
+    username_entry1 =Entry(screen2, textvariable = username_verify)
+    username_entry1.pack()
+    Label(screen2, text="").pack()
+    Label(screen2, text="Password * ").pack()
+    password_entry1 = Entry(screen2, textvariable = password_verify)
+    password_entry1.pack()
+    Label(screen2, text="").pack()
+    Button(screen2, text="Login", width=10, height=1, command=register_user).pack()
+
+
+
+def main_screen(): #main_screen funktiooni defineerimine
+    global screen
+    screen = Tk() #loob ekraani
+    screen.geometry("300x250") # ekraani suurus
+    screen.title("Notes 1.0") # ekraani pealkiri
+    Label(text = "Notes 1.0", bg = "grey", width = "300", height = "2", font = ("Calibri", 13)).pack()
+    Label(text = "").pack()
+    Button(text = "Login", height = "2", width = "30", command = login).pack()
+    Label(text = "").pack()
+    Button(text = "Register", height = "2", width = "30", command = register).pack()
+
+    screen.mainloop() #käivitab funktsiooni
+
+
+main_screen() #käivitab funktsiooni
